@@ -226,13 +226,9 @@ router.post('/users/adminControls', async (req, res) => {
 //ADMIN
 router.get("/users/adminControls/", async (req, res) => {
   try {
-    let user;
-    if (req.query.sortBy)
-      user = await User.find().sort(req.query.sortBy.replaceAll(":", " "));
-    else user = await User.find();
-    //const user = await User.find().sort(
-    //  (req.query.sortBy || "").replaceAll(":", " ")
-    //);
+    const user = await User.find().sort(
+      (req.query.sortBy || "").replaceAll(":", " ")
+    );
     if (!user.length) return res.status(404).send({ error: "No user found!" });
     else return res.send(user);
   } catch (e) {
