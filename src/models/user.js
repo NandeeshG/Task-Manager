@@ -8,6 +8,9 @@ const allowedFieldsUser = ["name", "age", "email", "password"];
 
 const schema = new mongoose.Schema(
   {
+    avatar: {
+      type: Buffer,
+    },
     name: {
       type: String,
       required: true,
@@ -61,11 +64,12 @@ schema.virtual("tasks", {
 });
 
 schema.methods.toJSON = function () {
-  let ret = this.toObject();
-  delete ret.password;
-  delete ret.tokens;
-  delete ret.__v;
-  return ret;
+  let user = this.toObject();
+  delete user.password;
+  delete user.tokens;
+  delete user.__v;
+  delete user.avatar; //bcos binary data too large.
+  return user;
 };
 
 schema.methods.generateAuthToken = async function (isAdmin = false) {

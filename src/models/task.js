@@ -22,7 +22,7 @@ const schema = new mongoose.Schema(
     timestamps: true,
   }
 );
-console.log(schema);
+
 const Task = mongoose.model("Task", schema);
 
 exports.module = { Task, allowedFieldsTask };

@@ -18,7 +18,7 @@ router.post("/tasks", auth, async (req, res) => {
   }
 });
 
-// /tasks?completed=true&limit=10&skip=20&sortBy=completed_-description_-createdAt
+// /tasks?completed=true&limit=10&skip=20&sortBy=completed:-description:-createdAt
 router.get("/tasks", auth, async (req, res) => {
   try {
     //Using user.populate
@@ -46,7 +46,7 @@ router.get("/tasks", auth, async (req, res) => {
     const tasks = await Task.find(filter)
       .limit(parseInt(req.query.limit))
       .skip(parseInt(req.query.skip))
-      .sort(req.query.sortBy.replaceAll("_", " "));
+      .sort(req.query.sortBy.replaceAll(":", " "));
     res.send(tasks);
   } catch (e) {
     console.log(e);
