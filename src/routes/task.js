@@ -46,7 +46,7 @@ router.get("/tasks", auth, async (req, res) => {
     const tasks = await Task.find(filter)
       .limit(parseInt(req.query.limit))
       .skip(parseInt(req.query.skip))
-      .sort(req.query.sortBy.replaceAll(":", " "));
+      .sort((req.query.sortBy || "").replaceAll(":", " "));
     res.send(tasks);
   } catch (e) {
     console.log(e);
