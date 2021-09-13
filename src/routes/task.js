@@ -52,7 +52,6 @@ router.get("/tasks", auth, async (req, res) => {
       .limit(limit)
       .skip(skip)
       .sort((req.query.sortBy || "").replaceAll(":", " "));
-    console.log(limit, skip);
 
     res.send(tasks);
   } catch (e) {
