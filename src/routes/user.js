@@ -3,12 +3,14 @@ const { User, allowedFieldsUser } = require("../models/user").module;
 const { auth } = require("../middleware/auth").module;
 const multer = require("multer");
 const sharp = require("sharp");
+const sendgrid = require("../emails/account").module;
 const router = new express.Router();
 
 router.post("/users", async (req, res) => {
   try {
     const user = new User(req.body);
     await user.save();
+    sendgrid.sendWelcomeEmail(user.name, user.email); //this returns a promise but we don't want to wait for it
     const token = await user.generateAuthToken();
     return res.status(201).send({ user, token });
   } catch (e) {
@@ -91,6 +93,7 @@ router.patch("/users/me", auth, async (req, res) => {
 router.delete("/users/me", auth, async (req, res) => {
   try {
     await req.user.remove();
+    sendgrid.sendCancelEmail(req.user.name, req.user.email); //this returns a promise but we don't want to wait for it
     return res.send();
   } catch (e) {
     console.log(e);
