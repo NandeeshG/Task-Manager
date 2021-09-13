@@ -43,10 +43,17 @@ router.get("/tasks", auth, async (req, res) => {
     //having === true makes sure query syntax is what we expect
     if (req.query.completed) filter.completed = req.query.completed === "true";
 
+    let limit = parseInt(req.query.limit);
+    if (isNaN(limit)) limit = "";
+    let skip = parseInt(req.query.skip);
+    if (isNaN(skip)) skip = "";
+
     const tasks = await Task.find(filter)
-      .limit(parseInt(req.query.limit))
-      .skip(parseInt(req.query.skip))
+      .limit(limit)
+      .skip(skip)
       .sort((req.query.sortBy || "").replaceAll(":", " "));
+    console.log(limit, skip);
+
     res.send(tasks);
   } catch (e) {
     console.log(e);
