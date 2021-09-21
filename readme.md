@@ -3,7 +3,7 @@
 
 ## How to run?
 1. Click on 'Run in postman'
-2. Change the postman environment to 'Task manager prod'
+2. Change the current postman environment to 'Task Manager API (Prod)'
 3. Edit the environment variable 'url'.
 4. Change 'url' initial and final value to 'https://nandeesh-task-manager.herokuapp.com'
 5. Start making requests online!
